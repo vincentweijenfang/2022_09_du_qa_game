@@ -1,0 +1,18 @@
+/* 擴充 bootstrap 的 css */
+
+// 新增 col，在 mixins/variables.styl 設置 $grid-expand 以新增 col-{$grid-expand}
+for $grid-string, $grid-value in $grid-expand
+  .offset-{$grid-string}
+    margin-left: ($grid-value / $grid-columns * 100%)
+  .col-{$grid-string}
+    max-width: ($grid-value / $grid-columns * 100%)
+    flex: 0 0 ($grid-value / $grid-columns * 100%)
+    
+for $breakpointName, $breakpointSize in $grid-breakpoints
+  +mediaUp($breakpointSize)
+    for $grid-string, $grid-value in $grid-expand
+      .offset-{$breakpointName}-{$grid-string}
+        margin-left: ($grid-value / $grid-columns * 100%)
+      .col-{$breakpointName}-{$grid-string}
+        max-width: ($grid-value / $grid-columns * 100%)
+        flex: 0 0 ($grid-value / $grid-columns * 100%)

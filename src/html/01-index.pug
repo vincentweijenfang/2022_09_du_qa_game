@@ -1,0 +1,37 @@
+extends _master
+block variables
+  - 
+    var bodyClass = 'theme-main'
+    var sitename = '第一屆 答題大賽'
+    var description = ''
+    var pageName = 'page-index'
+block head
+block content
+  
+  section.section.w-100.h-100
+    .deco.deco-left
+      img(src="~img/deco-left.png", alt="").intro
+      .deco.deco-blue-1
+        img(src="~img/deco-blue-1.png", alt="").intro
+    .deco.deco-right-bottom
+      img(src="~img/deco-right-bottom.png", alt="").intro
+      .deco.deco-blue-2
+        img(src="~img/deco-blue-2.png", alt="").intro
+    .container.container-md.d-flex.justify-content-center.align-items-center.h-100(class=setClass.container)#index-container
+      .shape.shape-round-dark.bg-darkgrey.intro
+      .shape.shape-round-light.bg-lightgrey.intro
+      .content()
+        .catch.d-flex.justify-content-center
+          .shape.shape-rect-grey.bg-lightgrey2.intro
+          .catch-bulb: img(src="~img/lightbulb-idea.svg", alt="").intro
+          .catch-left: img(src="~img/furu1.png", alt="").intro
+          .catch-body: img(src="~img/catch.png", alt="").intro
+          .catch-right: img(src="~img/furu2.png", alt="").intro
+        .sub.h2_34.text-primary.fw-bold.text-center.mt-20px.intro
+          span.opacity-40.me-15px 第一屆
+          span 答題大賽
+        .index-buttonGroup.buttonGroup.d-flex.justify-content-center.mt-20px.intro
+          a.button.button-style-primary(href="./question.html")
+            .button-text.body1_18 按此進入
+      
+block lastBody

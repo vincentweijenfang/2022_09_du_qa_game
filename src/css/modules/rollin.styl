@@ -1,0 +1,48 @@
+// .rollin.js
+
+// 元件準備
+rollin_is_ready()
+  &, ^[0]-block &^[0]-block-elem, ^[0]-item &^[0]-item-elem
+    {block}
+
+// 元件進場
+rollin_is_in()
+  &.in, ^[0]-block.in &^[0]-block-elem, ^[0]-item.in &^[0]-item-elem
+    {block}
+
+// 元件出場
+rollin_is_out()
+  &.out, ^[0]-block.out &^[0]-block-elem, ^[0]-item.out &^[0]-item-elem
+    {block}
+
+.rollin
+  &-item 
+    position relative
+    perspective 400px      
+  &-animation
+    &-flapX 
+      &.style-leftToRight
+        transform: rotateY(-181deg) translateZ(1px)
+      &.style-rightToLeft
+        transform: rotateY(181deg) translateZ(1px)
+    &-flapY
+      &.style-bottomToTop
+        transform: rotateX(-181deg) translateZ(1px)
+      &.style-topToBottom
+        transform: rotateX(181deg) translateZ(1px)
+    &-flapX, &-flapY 
+      opacity 0
+      backface-visibility hidden // 不要看到背面（預設是 visible）
+      transform-style preserve-3d
+      transform-origin 50% 50%
+      transition: opacity .65s ease,  transform .65s ease;
+      +rollin_is_in()
+        opacity 1
+        transform: rotateX(0deg) rotateY(0deg) translateZ(1px)
+      +rollin_is_out()
+        opacity .5
+        transform: rotateX(0deg) rotateY(0deg) translateZ(1px)
+
+      // +rollin_is_out()
+
+

@@ -1,0 +1,66 @@
+/*
+ * 或是用 boostrap 也有
+ * https://getbootstrap.com/docs/4.4/utilities/embed/
+ */
+
+// 擴充 breakpoint，以及自動高度
+
+$imgframe-list = {
+  '16to9': 56.25%,
+  '4to3': 75%,
+  '3to2': 66.67%,
+  '1to1': 100%,
+  '2to3': 150%,   
+  '9to16': 167.777%,
+}
+
+.imgframe
+  position: relative
+  background-position center
+  background-size contain
+  background-repeat no-repeat
+  &-item
+    position absolute
+    left 0    
+    right 0    
+    top 0    
+    bottom 0
+    margin auto    
+    &, img
+      min-width 100%
+      min-height 100%
+  &::before
+    content ""
+    display block
+
+.imgframe-auto
+  .imgframe-item
+    position relative
+  &::before
+    display none
+    
+for $typeName, $typeValue in $imgframe-list
+  .imgframe-{$typeName}
+    &::before
+      padding-top $typeValue
+
+for $breakpointName, $breakpointSize in $grid-breakpoints
+  +mediaUp($breakpointSize)
+    .imgframe-{$breakpointName}-auto
+      &::before
+        display none
+      .imgframe-item
+        position relative
+        left 0    
+        right 0    
+        top 0    
+        bottom 0
+    for $typeName, $typeValue in $imgframe-list
+      .imgframe-{$breakpointName}-{$typeName}
+        &::before
+          padding-top $typeValue
+
+// https://v5.getbootstrap.com/docs/5.0/content/images/
+.img-fluid
+  max-width: 100%
+  height auto

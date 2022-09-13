@@ -1,0 +1,40 @@
+extends _master
+block variables
+  - 
+    var bodyClass = 'theme-main'
+    var sitename = '第一屆 答題大賽'
+    var description = ''
+    var pageName = 'page-answer'
+block head
+block content
+  
+  section.section.w-100.h-100
+    .figure_360.A.font-cunstom A
+    .deco.deco-blue-1
+      img(src="~img/deco-blue-1.png", alt="").intro
+    .shape.shape-round-light.bg-lightgrey.intro
+    .container.container-md.d-flex.justify-content-center.align-items-center.h-100(class=setClass.container)#question-container
+      .content
+        .answer
+          .deco.deco-blue-2
+            img(src="~img/deco-blue-2.png", alt="").intro
+          .answer-main.d-flex.flex-column.align-items-center.intro
+            .answer-bulb.intro: img(src="~img/lightbulb-idea.svg", alt="").intro
+            // 難度等級 
+            .answer-rank.pt-20px.pb-40px.intro
+              span ★
+              span ★
+              span ★
+              span ★
+              span ☆ 
+            // 答案  
+            .answer-body.intro
+              .answer-text.h3_24.intro
+                |流穿員細旁民氣己快筆竹麻「高黑秋」斤抓要布蝶躲亮；歡時道花各牙冰魚往即月哪、穿給呢唱戊刀女會女會女會女會媽燈珠可冰那刀西。
+          .answer-foot.row.gutter-0.intro
+            .answer-buttonGroup.buttonGroup.d-flex.flex-column.intro
+              // 連結到下一題 
+              a.button.button-style-primary.align-self-center(href="./question.html")
+                .button-text.body1_18  下一題
+
+block lastBody

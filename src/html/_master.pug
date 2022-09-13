@@ -1,0 +1,84 @@
+//- 切版型專案，會用到的 _master
+- var image = "${require(`img/og.jpg`)}" + "?" + Date.now()
+-
+  var headerMode = 'normal'
+  var regionName = ''
+  var showHeader = true
+  var showFooter = true
+  var sitename = ''
+  var description = ''
+block variables
+
+<!DOCTYPE html>
+html(class='🤘🏻rockroll')
+  head
+    meta(charset='UTF-8')
+    title=sitename
+    meta(name="description" content=sitename)
+    meta(name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0')
+    meta(property="og:title" content=sitename)
+    meta(property="og:description" content=description)
+    meta(property="og:image" content=image)
+    if APP_ENV !== 'production'
+      meta(http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate")
+      meta(http-equiv="Pragma" content="no-cache")
+      meta(http-equiv="Expires" content="0")
+    link(rel="image_src" type="image/jpeg" href=image)
+    link(rel="shortcut icon" type="image/ico" href="favicon.png") 
+    link(rel='preconnect' href='https://fonts.gstatic.com')
+    // [if IE] 
+    script(src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js")
+    // [endif] 
+    link(rel="stylesheet" href="https://use.typekit.net/nyp1jpr.css")
+    link(href='https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300&display=swap' rel='stylesheet')
+    //- // Material Design 
+    //- link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.6.96/css/materialdesignicons.min.css")
+    //- // Adobe font 
+    //- script.
+      (function(d) {
+        var config = {
+          kitId: 'lmm3wkr',
+          scriptTimeout: 3000,
+          async: true
+        },
+        h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+      })(document);
+    block head
+
+  include components/variables
+    
+  body(class=DEV_MODE?'mode-dev '+bodyClass:bodyClass)
+
+    //- +loading({class: ''})
+    #app.d-flex.flex-column.justify-content-between.bg-grey.overflow-hidden.vw-100.vh-100
+      if pageName != 'page-index'
+        include _header.pug
+        //-
+      //- ＊sticky 的上層元素都要移除 overflow hidden！
+      main.flex-fill
+        //
+          每頁 content｜start
+           ██████  ████████   ███    ███████  ████████ 
+          ██    ██    ██     ██ ██   ██    ██    ██    
+          ██          ██    ██   ██  ██    ██    ██    
+            █████     ██   ██     ██ ███████     ██    
+                ██    ██   █████████ ██  ██      ██    
+          ██    ██    ██   ██     ██ ██   ██     ██    
+           ██████     ██   ██     ██ ██    ██    ██    
+        block content
+        //
+          ████████ ██    ██ ███████  
+          ██       ███   ██ ██     ██ 
+          ██       ████  ██ ██     ██ 
+          ██████   ██ ██ ██ ██     ██ 
+          ██       ██  ████ ██     ██ 
+          ██       ██   ███ ██     ██ 
+          ████████ ██    ██ ███████  
+          每頁 content｜end
+      //- include _footer.pug
+
+    //- script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js")
+    //- script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js")
+
+
+    block lastBody

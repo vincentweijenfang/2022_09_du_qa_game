@@ -1,0 +1,40 @@
+// text styles
+.text-justify
+  text-align justify
+  /* IE */
+  text-justify inter-ideograph
+  // 沒加這行的話 windows 的 chrome 只會對文內的空白格作分散
+  word-break break-all
+  .lang-en &
+    text-align center !important
+    word-break break-word
+  // &:after
+  // content ''
+  // display inline-block
+  // width 100%
+
+
+// follow bootstrap v5，增加以數字指定粗細的 class
+for $weightOption in (100 300 400 500 700 900)
+  .fw-{$weightOption}
+    font-weight $weightOption !important
+
+for $fontType, $fontStyle in $fontInitial
+  .{$fontType}
+    margin-bottom 0
+    setFontType($fontStyle)
+
+setFontType($fontStyle)
+  font-size $fontStyle[0] 
+  line-height $fontStyle[1]
+  letter-spacing $fontStyle[2] * 1em
+
+.lang-tc p
+  text-align justify
+  
+// RWD 使用
+for $breakpointName, $breakpointSize in $grid-breakpoints
+  +mediaUp($breakpointSize)
+    for $type in (left center right justify)
+      .text-{$breakpointName}-{$type}
+        text-align: $type !important

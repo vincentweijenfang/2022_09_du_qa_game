@@ -1,0 +1,54 @@
+// @version 1.0.2
+// @require '~bootstrap/scss/bootstrap.scss'
+@require '~bootstrap/dist/css/bootstrap.css'
+
+/* Reset CSS after Bootstrap */
+@require 'vendors/reset.css'
+
+/* Global mixins & extends */
+@require 'mixins/_index'
+
+/* Global styles */
+@require 'modules/base_bootstrap'
+@require 'modules/base_keyframes'
+// 重要
+@require 'modules/base_init'
+@require 'modules/base_font' 
+@require 'modules/base_color'
+@require 'modules/base_spacing' 
+
+// @require 'modules/vue_transition' // 無用
+@require 'modules/layout' // 將 layout_??? 全部合併起來（不包含 layout_grid），使檔案更精簡
+
+/* Modules */
+@require 'modules/typography_list-style'
+@require 'modules/typography'
+@require 'modules/button'
+// @require 'modules/form'
+// @require 'modules/form-input' // input, textarea - 合併到 form
+// @require 'modules/form-select' // select, date - 合併到 form
+// @require 'modules/form-radio' // radio, checkbox - 合併到 form
+
+/* 該專案客製化的組件 */
+// @require './common-components'
+// @require 'modules/icons'
+@require 'modules/header'
+@require 'modules/footer'
+// @require 'modules/imgframe'
+// @require 'modules/popup'
+// @require 'modules/cookiebar'
+// @require 'modules/cms'
+// @require 'modules/3party' // 第三方套件
+// @require 'modules/icomoon'
+// @require 'modules/rollin'
+@require './00-main'
+
+// 優化 render 很重要
+// https://blog.camel2243.com/2016/04/24/css-css3-%E5%B1%AC%E6%80%A7-will-change-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8/
+.will-change-transform
+  will-change transform
+.will-change-transform-opacity
+  will-change transform, opacity
+
+[v-cloak]
+  display none  

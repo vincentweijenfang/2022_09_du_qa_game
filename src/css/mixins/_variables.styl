@@ -1,0 +1,93 @@
+// https://v5.getbootstrap.com/docs/5.0/layout/breakpoints/
+// 參考 bootstrap 5 breakpoints
+$grid-breakpoints = {
+  // Extra small screen / phone
+  // xs: 0,
+  // Small screen / phone
+  sm:  size-sm * 1px,
+  // Medium screen / tablet
+  md:  size-md * 1px,
+  // Large screen / desktop
+  lg:  size-lg * 1px,
+  // Extra large screen / wide desktop
+  xl:  size-xl * 1px,
+  xxl: size-xxl * 1px
+}
+
+// 擴充 col，在 base_bootstrap.styl 產生 css
+$grid-columns = 12
+$grid-expand = {
+  // '2_4': 2.4,
+  // '3_5': 3.5,
+  // '8_5': 8.5,
+}
+
+c-light       = #EAEAEA // 題目
+  
+c-primary     = #E6DED3 // 0.4
+c-secondary   = #FFC555
+c-error       = #B71212
+c-success     = #23932E
+c-underline   = #16293A
+c-darkgrey    = #232323 // Q A button bg
+c-grey        = #313131
+c-lightgrey   = #404040
+c-lightgrey2  = #545454
+
+applyColor(stylusColorVar)
+  +cache(stylusColorVar)
+    color = stylusColorVar
+
+BOOSTRAP_COLORS = {
+  // bootstrap default color names
+  // https://getbootstrap.com/docs/4.3/utilities/colors/
+  light: c-light
+  primary: c-primary 
+  secondary: c-secondary 
+  error: c-error 
+  success: c-success 
+  underline: c-underline 
+  darkgrey: c-darkgrey 
+  grey: c-grey 
+  lightgrey: c-lightgrey 
+  lightgrey2: c-lightgrey2
+}
+
+// 設定 font：(font-size, line-height, letter-spacing, 英文版 letter-spacing)
+// 在 typography.styl 
+$fontInitial = {
+  figure_360: (480px 480px 0em), 
+  figure_160: (160px 160px 0em),
+  h2_34:      (34px 53px 0.075em), // index title + loading
+  h3_24:      (24px 36px 0.075em), // answer
+  h4_24:      (24px 32px 0.075em), // question
+  body1_18:   (18px 24px 0.075em), // ★★★★☆ 
+  small_14:   (14px 24px 0em), 
+}
+
+$content = 
+  content ''
+  display block
+  box-sizing border-box
+  position relative
+
+$center = 
+  left 0
+  right 0
+  margin auto
+  
+$center_middle = 
+  position absolute
+  left 0
+  right 0
+  top 0
+  bottom 0
+  margin auto
+
+$center_middle-overflow = 
+  position absolute
+  left -9999px
+  right -9999px
+  top -9999px
+  bottom -9999px
+  margin auto

@@ -1,0 +1,70 @@
+// @require '0_main' 不須載入整包，只許引入變數就好，如下方所示
+@require 'mixins/_index'
+
+.deco
+  &-blue-1
+    top 0
+    left 2.5%
+    transform translateY(-20%)
+  &-blue-2
+    right 20%
+    bottom 120px
+    z-index 2
+
+.shape
+  &-round-light
+    top initial
+    bottom 0
+    left 15%
+    margin-left -120px 
+    margin-bottom -120px 
+    width 240px
+    height 240px
+    opacity 0
+    transform scale(.1)
+
+.A
+  position absolute
+  right 0
+  top 0
+  font-weight bold
+  color c-darkgrey
+  // z-index 33
+
+.answer
+  position relative
+  // margin-top -100px
+  &-main
+    background rgba(c-lightgrey2, .4)
+    padding 0px 80px 120px
+  &-foot
+    opacity 0
+    padding 120px 0 0 0
+    &.is-active
+      transition-delay 1.5s
+  &-main, &-bulb, &-rank
+    transform scale(.25)
+    opacity 0
+    &.is-active
+      transition-timing-function ease-bounce
+  &-bulb, &-rank
+    &.is-active
+      transition-delay .25s
+  &-text, &-rank
+    color c-primary
+  &-bulb
+    margin-top -75px
+  &-rank
+    text-align center
+  &-body
+    overflow hidden
+    transform translateX(-100%)
+    &.is-active
+      transition-delay .5s
+  &-text
+    white-space pre-line
+    transform translateX(100%)
+    &.is-active
+      transition-delay .5s
+
+

@@ -1,0 +1,99 @@
+// 增加 width & height 的 px 部分｜start
+
+// overflow
+// https://getbootstrap.com/docs/4.4/utilities/overflow/
+/*
+bootstrap 內建
+.overflow-auto
+.overflow-hidden
+*/
+for $get_overflow in (hidden visible auto)
+  .overflow-{$get_overflow}
+    overflow $get_overflow !important
+  for $get_overflow_direction in (x y)
+    for $breakpointName, $breakpointSize in $grid-breakpoints
+      +mediaUp($breakpointSize)
+        .overflow-{$breakpointName}-{$get_overflow}
+          overflow $get_overflow !important
+        .overflow-{$breakpointName}-{$get_overflow_direction}-{$get_overflow}
+          overflow-{$get_overflow_direction} $get_overflow !important
+
+
+// z-index
+// https://tailwindcss.com/docs/z-index
+// object-fit 需要設定寬高 100%
+// https://css-tricks.com/almanac/properties/o/object-fit/
+for $get_objectFit in (contain cover fill none scale-down)
+  .object-{$get_objectFit}
+    width 100% 
+    height 100%
+    object-fit: $get_objectFit 
+
+// guterr
+/**
+ * 擴充 bootstrap .row gutter
+ * https://getbootstrap.com/docs/4.4/layout/grid/#no-gutters
+ * .gutter-5, .gutter-10, .gutter-15, .gutter-20, .gutter-25
+ * .gutter-{md,lg,xl}-5,  .gutter-{md,lg,xl}-10
+ * .gutter-{md,lg,xl}-15, .gutter-{md,lg,xl}-20
+ * .gutter-{md,lg,xl}-25
+ */
+
+$gutters = range(0, 40, 5)
+
+generateGutter(mediumName = '')
+  for $value in $gutters
+    .gutter{mediumName}-{$value}
+      $px = unit($value, 'px')
+      margin-right $px * -0.5 !important
+      margin-left $px * -0.5 !important
+      > [class*='col-'], > .col
+        padding-right $px * 0.5 !important
+        padding-left $px * 0.5 !important
+
+generateGutter()
+for $breakpointName, $breakpointSize in $grid-breakpoints
+  +mediaUp($breakpointSize)
+    generateGutter('-' + $breakpointName)
+
+
+/**
+ * 這些是 bootstrap 內建的
+ * https://getbootstrap.com/docs/4.4/utilities/sizing/
+ * .w-25, .w-50, .w-75, .w-100, .mw-25, .mw-50, .mw-75, .mw-100
+ *
+ * MX Team 擴充的
+ * .w-{md,lg,xl}-25,  .w-{md,lg,xl}-50
+ * .w-{md,lg,xl}-75,  .w-{md,lg,xl}-100
+ * .mw-{md,lg,xl}-25, .mw-{md,lg,xl}-50
+ * .mw-{md,lg,xl}-75, .mw-{md,lg,xl}-100
+ */
+
+$layout_sizes = range(0, 40, 5)
+
+for $layout_value in $layout_sizes
+  .w-{$layout_value}px
+    width unit($layout_value, 'px') !important
+  .h-{$layout_value}px
+    height unit($layout_value, 'px') !important
+
+for $breakpointName in ('sm' 'md' 'lg' 'xl' 'xxl')
+  .mw-{$breakpointName}
+    max-width: lookup('size-' + $breakpointName) * 1px !important
+    
+for $breakpointName, $breakpointSize in $grid-breakpoints // 在 variables.styl
+  +mediaUp($breakpointSize)
+    .w-{$breakpointName}-auto
+      width auto !important
+    .mw-{$breakpointName}-auto
+      max-width auto !important
+    for $layout_value in $layout_sizes
+      .w-{$breakpointName}-{$layout_value}
+        width unit($layout_value, '%') !important
+      .mw-{$breakpointName}-{$layout_value}
+        max-width unit($layout_value, '%') !important
+
+      .w-{$breakpointName}-{$layout_value}px
+        width unit($layout_value, 'px') !important
+      .h-{$breakpointName}-{$layout_value}px
+        height unit($layout_value, 'px') !important

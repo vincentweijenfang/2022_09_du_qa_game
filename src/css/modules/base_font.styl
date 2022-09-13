@@ -1,0 +1,52 @@
+
+// 修正 微軟正黑體，在 bold 下，碧筵綰這三個字會多空格
+// https://lininu.blogspot.com/2016/01/blog-post.html
+// 修正粗體
+
+@import url('https://fonts.googleapis.com/css2?family=Vollkorn:wght@400;500;700&display=swap');
+
+@font-face {
+  font-family: '微軟正黑體修正';
+  unicode-range: U+7db0, U+78A7, U+7B75;  // ASCII (碧筵綰)
+  font-style: normal;
+  font-weight: bold;
+  src: local(Yu Gothic), local(MS Gothic);
+}
+
+// 一般粗細的時候改回微軟正黑
+@font-face {
+  font-family: '微軟正黑體修正';
+  unicode-range: U+7db0, U+78A7, U+7B75; /* ASCII (碧筵綰) */
+  font-style: normal;
+  font-weight: normal;
+  src: local('微軟正黑體');
+}
+
+// @font-face {
+//   font-family: 'neuzeitgro';
+//   font-style: normal;
+//   font-weight: 400;
+//   src: url('~fonts/neuzeitgro-reg-webfont.woff');
+// }
+
+html, body
+  font-family Helvetica, Verdana, Arial, noto-sans-cjk-jp, 'Noto Sans TC', '微軟正黑體修正', '微軟正黑體', 'Microsoft JhengHei', '儷黑 Pro', 'LiHei Pro', sans-serif
+
+.text-font
+  font-family: source-han-serif-tc, "Noto Sans TC", "Noto Sans CJK TC", "Microsoft JhengHei", "儷黑 Pro", "LiHei Pro", sans-serif;
+
+.font-cunstom
+  font-family: Vollkorn, Helvetica, Verdana, Arial, noto-sans-cjk-jp, 'Noto Sans TC', '微軟正黑體修正', '微軟正黑體', 'Microsoft JhengHei', '儷黑 Pro', 'LiHei Pro', sans-serif !important
+
+
+
+// .text-neuzeitgro
+//   font-family: 'neuzeitgro', Verdana, Arial, noto-sans-cjk-jp, 'Noto Sans TC', '微軟正黑體修正', '微軟正黑體', 'Microsoft JhengHei', '儷黑 Pro', 'LiHei Pro', sans-serif !important
+
+
+
+
+
+
+
+
