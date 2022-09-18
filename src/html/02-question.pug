@@ -2,7 +2,7 @@ extends _master
 block variables
   - 
     var bodyClass = 'theme-main'
-    var sitename = '第一屆 答題大賽'
+    var sitename = '第一屆 蠹酸齋答題大賽'
     var description = ''
     var pageName = 'page-question'
 block head
@@ -10,15 +10,24 @@ block content
   
   .popup.success-popup.d-flex.justify-content-center.align-items-center
     .popup-content.d-flex.flex-column.align-items-center
-      .popup-icon.figure_360.fw-bold ○
+      .popup-icon.figure_360.fw-bold 
+        <svg viewBox="0 0 24 24">
+          <path fill="currentColor" d="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+        </svg>
       .popup-title.h4_24 正確
   .popup.error-popup.d-flex.justify-content-center.align-items-center
     .popup-content.d-flex.flex-column.align-items-center
-      .popup-icon.figure_360 ✕
+      .popup-icon.figure_360 
+        <svg viewBox="0 0 24 24">
+          <path fill="currentColor" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+        </svg>
       .popup-title.h4_24 答錯！
   .popup.oops-popup.d-flex.justify-content-center.align-items-center
     .popup-content.d-flex.flex-column.align-items-center
-      .popup-icon.figure_360 ！
+      .popup-icon.figure_360 
+        <svg viewBox="0 0 24 24">
+          <path fill="currentColor" d="M13 14H11V9H13M13 18H11V16H13M1 21H23L12 2L1 21Z" />
+        </svg>
       .popup-title.h2_34 請選擇選項
 
   section.section.w-100.h-100
@@ -31,107 +40,103 @@ block content
       
       // ＊套版部分 : 
          https://www.w3schools.com/tags/tag_form.asp 
-      form.content(action="" method="post")
-        
-        .question.d-flex.flex-column
+      form.content.question.d-flex.flex-column(action="" method="post")
+        .question-head.body1_18.d-flex.justify-content-between.align-self-end.intro
+          // 難度等級 
+          .question-rank.intro
+            span ★
+            span ★
+            span ★
+            span ★
+            span ☆ 
+          // 出題者 
+          .question-creater.intro 出題者：
+            span 子迂的蠹酸齋
+          hr.question-divider.intro
 
-          .question-head.body1_18.d-flex.justify-content-between.align-self-end.intro
-            // 難度等級 
-            .question-rank.intro
-              span ★
-              span ★
-              span ★
-              span ★
-              span ☆ 
-            // 出題者 
-            .question-creater.intro 出題者：
-              span 子迂的蠹酸齋
-            hr.question-divider.intro
+        // ████████████████████████████████████████████████████████████████████████████████
 
-          // ████████████████████████████████████████████████████████████████████████████████
+        // ＊套版部分 : 
+          題目內容加在 .question-text 裡面 
+        .question-main.h4_24.d-flex.justify-content-center
+          .shape.shape-rect-grey.bg-lightgrey.intro
+          .question-body.intro
+            .question-text.intro.
+              作家錢鍾書的作品《圍城》中，有段關於歧視鏈的描述:
+              「在大學裡，理科學生瞧不起文科學生，外國語文系學生瞧不起中國文學系學生，中國文學系學生瞧不起哲學系學生，哲學系學生瞧不起社會學系學生，社會學系學生瞧不起XX系學生，XX系學生沒有誰可以給他們瞧不起了，只能瞧不起本系的先生。」
+              
+              請問描述中的XX系為何?
 
-          // ＊套版部分 : 
-            題目內容加在 .question-text 裡面 
-          .question-main.h4_24.d-flex.justify-content-center
-            .shape.shape-rect-grey.bg-lightgrey.intro
-            .question-body.intro
-              .question-text.intro 
-                |作家錢鍾書的作品《圍城》中，有段關於歧視鏈的描述:
-                //- |作家錢鍾書的作品《圍城》中，有段關於歧視鏈的描述:
-                |「在大學裡，理科學生瞧不起文科學生，外國語文系學生瞧不起中國文學系學生，中國文學系學生瞧不起哲學系學生，哲學系學生瞧不起社會學系學生，社會學系學生瞧不起XX系學生，XX系學生沒有誰可以給他們瞧不起了，只能瞧不起本系的先生。」
-                |
-                |請問描述中的XX系為何?
+        // ████████████████████████████████████████████████████████████████████████████████
 
-          // ████████████████████████████████████████████████████████████████████████████████
+        // ＊套版部分 : 
+          正確選項 - .answer-option-checked 的 value 為 success 
+          錯誤選項 - .answer-option-checked 的 value 為 error  
+          各選項文字加在 .answer-option-text 裡面 
+        .answer.row.gutter-20.my--10px
+          label.answer-option.col.col-6.my-10px.intro
+            input.answer-option-checked(type="radio" value="success" name="question")
+            .answer-option-body.d-flex.align-items-center
+              .answer-option-id.figure_160.font-cunstom A
+              .answer-option-text.body1_18
+                |清甲內朵因乍進戊實少斗服
+          label.answer-option.col.col-6.my-10px.intro
+            input.answer-option-checked(type="radio" value="error" name="question")
+            .answer-option-body.d-flex.align-items-center
+              .answer-option-id.figure_160.font-cunstom B
+              .answer-option-text.body1_18
+                |玩尼人別才裏足明尾的，奶兔隻話游立且兄象跳園皮
+          label.answer-option.col.col-6.my-10px.intro
+            input.answer-option-checked(type="radio" value="error" name="question")
+            .answer-option-body.d-flex.align-items-center
+              .answer-option-id.figure_160.font-cunstom C
+              .answer-option-text.body1_18
+                |何蛋足飯苦飽告几事直什色未大根上「乞牙封多許音幼」四知躲米就共
+          label.answer-option.col.col-6.my-10px.intro
+            input.answer-option-checked(type="radio" value="error" name="question")
+            .answer-option-body.d-flex.align-items-center
+              .answer-option-id.figure_160.font-cunstom D
+              .answer-option-text.body1_18
+                |流穿員細旁民氣己快筆竹麻「高黑秋」斤抓要布蝶躲亮；歡時道花各牙冰魚往即月哪、穿給呢唱戊刀女會女會女會女會媽燈珠可冰那刀西。
 
-          // ＊套版部分 : 
-           正確選項 - .answer-option-checked 的 value 為 success 
-           錯誤選項 - .answer-option-checked 的 value 為 error  
-           各選項文字加在 .answer-option-text 裡面 
-          .answer.row.gutter-20.my--10px
-            label.answer-option.col.col-6.my-10px.intro
-              input.answer-option-checked(type="radio" value="success" name="question")
-              .answer-option-body.d-flex.align-items-center
-                .answer-option-id.figure_160.font-cunstom A
-                .answer-option-text.body1_18
-                  |清甲內朵因乍進戊實少斗服
-            label.answer-option.col.col-6.my-10px.intro
-              input.answer-option-checked(type="radio" value="error" name="question")
-              .answer-option-body.d-flex.align-items-center
-                .answer-option-id.figure_160.font-cunstom B
-                .answer-option-text.body1_18
-                  |玩尼人別才裏足明尾的，奶兔隻話游立且兄象跳園皮
-            label.answer-option.col.col-6.my-10px.intro
-              input.answer-option-checked(type="radio" value="error" name="question")
-              .answer-option-body.d-flex.align-items-center
-                .answer-option-id.figure_160.font-cunstom C
-                .answer-option-text.body1_18
-                  |何蛋足飯苦飽告几事直什色未大根上「乞牙封多許音幼」四知躲米就共
-            label.answer-option.col.col-6.my-10px.intro
-              input.answer-option-checked(type="radio" value="error" name="question")
-              .answer-option-body.d-flex.align-items-center
-                .answer-option-id.figure_160.font-cunstom D
-                .answer-option-text.body1_18
-                  |流穿員細旁民氣己快筆竹麻「高黑秋」斤抓要布蝶躲亮；歡時道花各牙冰魚往即月哪、穿給呢唱戊刀女會女會女會女會媽燈珠可冰那刀西。
+        // ████████████████████████████████████████████████████████████████████████████████
 
-          // ████████████████████████████████████████████████████████████████████████████████
+        .question-foot.row.gutter-0.intro
+          
+          .col-6.d-flex
+            .player.d-flex.align-items-center
+              .player-title.small_14
+                |請輸入答題者 
+              // 輸入框 
+              input.body1_18.player-inputfield(type="text" name="player")
+              // 僅用作顯示（不需輸入答題者） 
+              //- .body1_18.player-inputfield 子迂的蠹酸齋
 
-          .question-foot.row.gutter-0.intro
+          .col-6.question-buttonGroup.buttonGroup.d-flex.flex-column.intro
             
-            .col-6.d-flex
-              .player.d-flex.align-items-center
-                .player-title.small_14
-                  |請輸入答題者 
-                // 輸入框 
-                input.body1_18.player-inputfield(type="text" name="player")
-                // 僅用作顯示（不需輸入答題者） 
-                //- .body1_18.player-inputfield 子迂的蠹酸齋
+            // 在本頁面顯示答錯與否 - 由前端撰寫動態 
+            div.button.button-style-primary.button-action-go.button-hidden-success.align-self-start.button-hidden-error(href="./question.html")
+              .button-text.body1_18 確認
 
-            .col-6.question-buttonGroup.buttonGroup.d-flex.flex-column.intro
-              
-              // 在本頁面顯示答錯與否 - 由前端撰寫動態 
-              div.button.button-style-primary.button-action-go.button-hidden-success.align-self-start.button-hidden-error(href="./question.html")
-                .button-text.body1_18 確認
-
-              // 若答對，顯示本按鈕
-                1. 送出 form : 本題的答題者、狀態（答對）
-                2. 並連結到題目頁（下一題）- question.html 
-              if APP_ENV !== 'production'
-                a.button.button-style-primary.align-self-end.button-visible-success(href="./question.html")
-                  .button-text.body1_18  下一題
-              else
-                button.button.button-style-primary.align-self-end.button-visible-success
-                  .button-text.body1_18  下一題
-              
-              // 若答錯，顯示本按鈕 
-                1. 送出 form : 本題的答題者、狀態（答錯）
-                2. 並連結到答案頁 - answer.html 
-              if APP_ENV !== 'production'
-                a.button.button-style-primary.align-self-end.button-visible-error(href="./answer.html")
-                  .button-text.body1_18  揭曉答案
-              else
-                button.button.button-style-primary.align-self-end.button-visible-error
-                  .button-text.body1_18  揭曉答案
+            // 若答對，顯示本按鈕
+              1. 送出 form : 本題的答題者、狀態（答對）
+              2. 並連結到題目頁（下一題）- question.html 
+            if APP_ENV !== 'production'
+              a.button.button-style-primary.align-self-end.button-visible-success(href="./answer.html")
+                .button-text.body1_18  點擊繼續
+            else
+              button.button.button-style-primary.align-self-end.button-visible-success
+                .button-text.body1_18  點擊繼續
+            
+            // 若答錯，顯示本按鈕 
+              1. 送出 form : 本題的答題者、狀態（答錯）
+              2. 並連結到答案頁 - answer.html 
+            if APP_ENV !== 'production'
+              a.button.button-style-primary.align-self-end.button-visible-error(href="./answer.html")
+                .button-text.body1_18  揭曉答案
+            else
+              button.button.button-style-primary.align-self-end.button-visible-error
+                .button-text.body1_18  揭曉答案
 
 
 block lastBody

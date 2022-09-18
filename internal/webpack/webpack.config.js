@@ -41,6 +41,12 @@ const productionPages = [
     filename: 'answer.html',
     chunks: ['03-answer', 'commons', 'vendors'],
   }, { }),
+  // 完結頁
+  createHtmlWebpackPlugin({
+    template: 'html/04-ending.pug',
+    filename: 'ending.html',
+    chunks: ['01-index', 'commons', 'vendors'],
+  }, { }),
 ]
 
 const publishPages = productionPages

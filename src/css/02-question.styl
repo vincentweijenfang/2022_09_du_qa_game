@@ -62,6 +62,10 @@
     &.is-active
       transition-delay 1.25s
   &-text
+    // 消除 pug 第一行的空白行 
+    // https://stackoverflow.com/questions/14946908/how-can-i-ignore-leading-and-trailing-linebreaks-within-an-html-code-block-usi
+    // &::first-line:not(:last-line)
+    //   line-height 0
     color c-light
     // font-weight bold
     white-space pre-line
@@ -142,6 +146,10 @@
     $text-default = c-primary
     $text-hover = c-darkgrey
     &-text
+      // 消除 pug 第一行的空白行 
+      // https://stackoverflow.com/questions/14946908/how-can-i-ignore-leading-and-trailing-linebreaks-within-an-html-code-block-usi
+      // &::first-line:not(:last-line)
+      //   line-height 0
       position relative
       font-weight bold
       white-space pre-line

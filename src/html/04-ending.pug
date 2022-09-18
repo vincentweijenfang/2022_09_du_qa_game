@@ -1,0 +1,39 @@
+extends _master
+block variables
+  - 
+    var bodyClass = 'theme-main'
+    var sitename = '第一屆 蠹酸齋答題大賽'
+    var description = ''
+    var pageName = 'page-index'
+block head
+block content
+  
+  section.section.w-100.h-100
+    .deco.deco-left
+      img(src="~img/deco-left.png", alt="").intro
+      .deco.deco-blue-1
+        img(src="~img/deco-blue-1.png", alt="").intro
+    .deco.deco-right-bottom
+      img(src="~img/deco-right-bottom.png", alt="").intro
+      .deco.deco-blue-2
+        img(src="~img/deco-blue-2.png", alt="").intro
+    .container.container-md.d-flex.justify-content-center.align-items-center.h-100(class=setClass.container)#index-container
+      .shape.shape-round-dark.bg-darkgrey.intro
+      .shape.shape-round-light.bg-lightgrey.intro
+      .content()
+        .catch.d-flex.justify-content-center
+          .shape.shape-rect-grey.bg-lightgrey2.intro
+          //- .catch-bulb 
+          //-   <svg class="intro" viewBox="0 0 24 24">
+          //-     <path fill="currentColor" d="M12,6A6,6 0 0,1 18,12C18,14.22 16.79,16.16 15,17.2V19A1,1 0 0,1 14,20H10A1,1 0 0,1 9,19V17.2C7.21,16.16 6,14.22 6,12A6,6 0 0,1 12,6M14,21V22A1,1 0 0,1 13,23H11A1,1 0 0,1 10,22V21H14M20,11H23V13H20V11M1,11H4V13H1V11M13,1V4H11V1H13M4.92,3.5L7.05,5.64L5.63,7.05L3.5,4.93L4.92,3.5M16.95,5.63L19.07,3.5L20.5,4.93L18.37,7.05L16.95,5.63Z" />
+          //-   </svg>
+            //- img(src="~img/lightbulb-idea.svg", alt="").intro
+          //- .catch-left: img(src="~img/furu1.png", alt="").intro
+          .catch-body 
+            .intro
+              .catch-ending.h1_64.d-flex.align-items-center.justify-content-center
+                span 題目用罄:(
+              img(src="~img/catch.png", alt="")
+          //- .catch-right: img(src="~img/furu2.png", alt="").intro
+      
+block lastBody
