@@ -1,0 +1,567 @@
+<!DOCTYPE html><!DOCTYPE js>
+<html class="🤘🏻rockroll">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>第一屆 蠹酸齋答題大賽</title>
+    <meta name="description" content="第一屆 蠹酸齋答題大賽"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    <meta property="og:title" content="第一屆 蠹酸齋答題大賽"/>
+    <meta property="og:description" content=""/>
+    <meta property="og:image" content="assets/img/og.jpg?1663128869140"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <link rel="image_src" type="image/jpeg" href="assets/img/og.jpg?1663128869140"/>
+    <link rel="shortcut icon" type="image/ico" href="favicon.png"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com"/>
+    <!-- [if IE] -->
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script>
+    <!-- [endif] -->
+    <link rel="stylesheet" href="https://use.typekit.net/nyp1jpr.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300&amp;display=swap" rel="stylesheet"/>
+  <script defer src="assets/js/vendors.js"></script>
+  <script defer src="assets/js/commons.js"></script>
+  <script defer src="assets/js/02-question.js"></script>
+  <script defer src="assets/js/03-answer.js"></script>
+  <link href="assets/css/vendors-chunk.css" rel="stylesheet">
+  <link href="assets/css/commons-chunk.css" rel="stylesheet">
+  <link href="assets/css/01-index.css" rel="stylesheet">
+  <link href="assets/css/02-question.css" rel="stylesheet">
+  <link href="assets/css/03-answer.css" rel="stylesheet">
+   
+    <!-- 功能程式 -->
+    <script type="text/javascript">
+      var dataset = [];
+      var questionSet = [];
+      var Name = "";
+      var input;
+      const fileReader = new FileReader();
+      fileReader.onload = (e) => {
+        //alert(e.target.result)
+        var s = e.target.result.split('\n');
+        var str = '<table >';
+        for(var i=0; i<s.length; ++i) {
+          if(s[i].length == 0)
+            continue;
+          if(i == 0) {
+            str += '<tr>';
+            var t = s[i].split('\t');
+            for(var j=0; j<t.length; ++j)
+              str += '<th style="border: 1px solid black;"> ' + t[j] + '</th>';
+            str += '</tr>';
+          }
+          else {
+            str += '<tr>';
+            var t = s[i].split('\t');
+             while(t.length<13) {
+              t.push('');
+             }
+
+            for(var j=0; j<t.length; ++j)
+              str += '<td style="border: 1px solid black;"> ' + t[j] + '</td>';
+            str += '</tr>';
+          }
+          
+          if(i > 0) {
+            var t = s[i].split('\t');
+            while(t.length<13) {
+              t.push('');
+            }
+            data = { 'timestamp': t[0], 'question':t[1], 'correctAnswer': t[2], 'answer2': t[3], 'answer3':t[4], 'answer4':t[5], 'level':t[6], 'reference':t[7], 'provider':t[8], 'advanced':t[9], 'releasedFlag':t[10], 'winner':t[11], 'wintime':t[12] };
+            dataset.push(data);
+            if(data['releasedFlag'] !== '已公開') {
+              questionSet.push(data);
+            }
+          }
+        }
+        str += '</table>';
+
+        shuffle(questionSet);
+          ShowQuestion();
+
+      }
+
+      function onLoaded() {
+        //TODO: 狀態機切換：載入問題頁 -> A進入頁 -> B題目頁 -> C答案頁 -> B題目頁
+        document.getElementById('page_question').classList.remove('is-visible');
+        document.getElementById('page_answer').classList.remove('is-visible');
+        // document.getElementById('page_question').setAttribute('style', 'display:none');
+        // document.getElementById('page_answer').setAttribute('style', 'display:none');
+
+        input = document.getElementById('inpitFileQuestion');
+        input.onchange = (e) => {
+          const [file] = e.target.files;
+          fileReader.readAsText(file);
+
+          document.getElementById('firstStage').classList.remove('is-visible');
+          document.getElementById('page_question').classList.add('is-visible');
+          // document.getElementById('firstStage').setAttribute('style', 'display:none');
+          // document.getElementById('page_question').setAttribute('style', 'display:block');
+        }
+      }
+
+      function gencsv() {
+        let csvContent = "data:text/txt;charset=utf-8,";
+        csvContent += '時間戳記\t在這裡輸入你的題目，必須為四選一的選擇題\t在這裡輸入正確的答案選項一\t在這裡輸入錯誤的答案選項二\t在這裡輸入錯誤的答案選項三\t在這裡輸入錯誤的答案選項四\t你認為難度從最難5到最易1，本題的難度為何?\t在這裡輸入你想要補充說明的相關資料\t請問出題者您是哪位齋友呢?\t有沒有希望額外附註或補充的東西呢?\t已公開\t答對者\t答題時間\n';
+        dataset.forEach(function(o) {
+            o['releasedFlag'] = '已公開';
+            o['wintime'] = '2022/10/01 齋聚';
+            let row = o['timestamp'] + '\t' + o['question'] + '\t' + o['correctAnswer'] + '\t' 
+            + o['answer2'] + '\t' + o['answer3'] + '\t' + o['answer4'] + '\t' + o['level'] + '\t' 
+            + o['reference'] + '\t' + o['provider'] + '\t' + o['advanced'] + '\t' 
+            + o['releasedFlag'] + '\t' + o['winner'] + '\t' + o['wintime'];
+            csvContent += row + '\n';
+
+        });
+
+        var encodedUri = encodeURI(csvContent);
+        var link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "答題情況.txt");
+        document.body.appendChild(link); // Required for FF
+        link.click();
+      }
+
+
+      function shuffle(array) {
+        //see: https://shubo.io/javascript-random-shuffle/
+        for (let i = array.length - 1; i > 0; i--) {
+          let j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+      }
+
+      var Ary;
+      var Question;
+      var WinTimes = 0;
+      function next() {
+        if(questionSet.length == 0) {
+          alert('沒有題目了');
+        }
+        else {
+          if(WinTimes == 0) {
+            // Name = window.prompt('請輸入選手名稱', '');
+            Name = document.getElementById('rifur_player').value();
+          }
+          else if(WinTimes == 2) {
+            alert(Name + ' 已答對兩次，請換下一位選手。');
+
+            //Name = window.prompt(Name + ' 已答對兩次，請換下一位選手。請輸入選手名稱', '');
+          }
+          Question = questionSet.pop();
+          document.getElementById('questionTitle').innerHTML = Question.question;
+          document.getElementById('provider').innerHTML = '出題者：'+Question.provider;
+          var level = parseInt(Question.level);
+          if(level == NaN) level = 1;
+          var levelStartA = '';
+          var levelStartB = '';
+          for(var i=0; i<5; ++i) {
+            if(i < level)
+              levelStartA += '★'
+            else
+              levelStartB += '☆'
+          }
+          document.getElementById('level').innerHTML = '難度：'+'<span style="color: #DDA52D">'+levelStartA+'</span>' + levelStartB;
+          Ary = [Question.correctAnswer, Question.answer2, Question.answer3, Question.answer4];
+          shuffle(Ary);
+          document.getElementById('anwser1').innerHTML = '<button onclick="checkAnser(0)">1</button>' + Ary[0];
+          document.getElementById('anwser2').innerHTML = '<button onclick="checkAnser(1)">2</button>' +Ary[1];
+          document.getElementById('anwser3').innerHTML = '<button onclick="checkAnser(2)">3</button>' +Ary[2];
+          document.getElementById('anwser4').innerHTML = '<button onclick="checkAnser(3)">4</button>' +Ary[3];
+
+          Question['winner'] = Name;
+        }
+      }
+
+      function ShowQuestion() {
+        var rifur_section = document.getElementById('rifur_section');
+        rifur_section.classList.remove('is-success');
+        rifur_section.classList.remove('is-error');
+        document.getElementById('rifur_radio1').checked = false;
+        document.getElementById('rifur_radio2').checked = false;
+        document.getElementById('rifur_radio3').checked = false;
+        document.getElementById('rifur_radio4').checked = false;
+        document.getElementById('page_question').classList.add('is-visible');
+        document.getElementById('page_answer').classList.remove('is-visible');
+        // document.getElementById('page_question').setAttribute('style', 'display:block');
+        // document.getElementById('page_answer').setAttribute('style', 'display:none');
+        
+        if(questionSet.length == 0) {
+          gencsv();
+          window.location.href = 'ending.html';
+          return;
+        }
+
+        Question = questionSet.pop();
+          document.getElementById('rifur_question').innerHTML = Question.question;
+          document.getElementById('rifur_provider').innerHTML = Question.provider;
+          var level = parseInt(Question.level);
+          if(level == NaN) level = 1;
+          var levelStartA = '';
+          var levelStartB = '';
+          for(var i=0; i<5; ++i) {
+            if(i < level)
+              levelStartA += '★'
+            else
+              levelStartB += '☆'
+          }
+          document.getElementById('rifur_level').innerHTML = levelStartA + levelStartB;
+          document.getElementById('rifur_panswer_level').innerHTML = levelStartA + levelStartB;
+          document.getElementById('rifur_panswer_correctAnswer').innerHTML = Question.correctAnswer;
+          document.getElementById('rifur_panswer_reference').innerHTML = Question.reference || '無';
+          document.getElementById('rifur_panswer_advanced').innerHTML = Question.advanced || '無';
+          
+          Ary = [Question.correctAnswer, Question.answer2, Question.answer3, Question.answer4];
+          shuffle(Ary);
+          document.getElementById('rifur_answer1').innerHTML = Ary[0];
+          document.getElementById('rifur_answer2').innerHTML = Ary[1];
+          document.getElementById('rifur_answer3').innerHTML = Ary[2];
+          document.getElementById('rifur_answer4').innerHTML = Ary[3];
+
+          document.getElementById('rifur_radio1').value = Question.correctAnswer==Ary[0] ? 'success' : 'error';
+          document.getElementById('rifur_radio2').value = Question.correctAnswer==Ary[1] ? 'success' : 'error';
+          document.getElementById('rifur_radio3').value = Question.correctAnswer==Ary[2] ? 'success' : 'error';
+          document.getElementById('rifur_radio4').value = Question.correctAnswer==Ary[3] ? 'success' : 'error';
+      }
+
+      function ShowAnswer(win) {
+        if(win == 1) {
+          var name = document.getElementById('rifur_player').value;
+          Question['winner'] = name;
+        }
+
+        document.getElementById('page_question').classList.remove('is-visible');
+        document.getElementById('page_answer').classList.add('is-visible');
+        // document.getElementById('page_question').setAttribute('style', 'display:none!important');
+        // document.getElementById('page_answer').setAttribute('style', 'display:block!important');
+
+      }
+
+      function ShowNext() {
+        ShowQuestion();
+      }
+
+      function checkAnswer(ans) {
+        if(Ary[ans] == Question.correctAnswer) {
+          alert('答對！！');
+          Question['winner'] = Name;
+          WinTimes += 1;
+          refreshTable();
+          next();
+        }
+        else {
+          alert('答錯了');
+        }
+      }
+
+      function refreshTable() {
+        var str = '<table><tr><th style="border: 1px solid black;">時間戳記\t在這裡輸入你的題目，必須為四選一的選擇題\t在這裡輸入正確的答案選項一\t在這裡輸入錯誤的答案選項二\t在這裡輸入錯誤的答案選項三\t在這裡輸入錯誤的答案選項四\t你認為難度從最難5到最易1，本題的難度為何?\t在這裡輸入你想要補充說明的相關資料\t請問出題者您是哪位齋友呢?\t有沒有希望額外附註或補充的東西呢?\t已公開\t答對者\t答題時間</th></tr>'.replace(/\t/g, '</th><th  style="border: 1px solid black;">');
+        dataset.forEach(function(o) {
+            var row = '<tr><td style="border: 1px solid black;">' + o['timestamp'] + '\t' + o['question'] + '\t' + o['correctAnswer'] + '\t' 
+            + o['answer2'] + '\t' + o['answer3'] + '\t' + o['answer4'] + '\t' + o['level'] + '\t' 
+            + o['reference'] + '\t' + o['provider'] + '\t' + o['advanced'] + '\t' 
+            + o['releasedFlag'] + '\t' + o['winner'] + '\t' + o['wintime'] + '</td></tr>';
+            str += row.replace(/\t/g, '</td><td style="border: 1px solid black;">');
+        });
+        str += '</table>'
+        document.getElementById('test').innerHTML = str;
+      }
+
+    </script>
+</head>
+<body class="theme-main" onload="onLoaded();">
+
+  <!-- <div id="firstStage">
+    <input id="inpitFileQuestion" type="file" value="蠹酸齋問答大會蒐集.txt" />
+  </div> -->
+
+  <div id="firstStage" class="vw-100 vh-100 is-visible">
+    <input id="inpitFileQuestion" class="d-none" type="file" value="蠹酸齋問答大會蒐集.txt" />
+    <div class="d-flex flex-column justify-content-between bg-grey overflow-hidden vw-100 vh-100 app">
+      <main class="flex-fill">
+        <section class="section w-100 h-100">
+          <div class="deco deco-left"><img class="intro" src="assets/img/deco-left.png" alt=""/>
+            <div class="deco deco-blue-1"><img class="intro" src="assets/img/deco-blue-1.png" alt=""/></div>
+          </div>
+          <div class="deco deco-right-bottom"><img class="intro" src="assets/img/deco-right-bottom.png" alt=""/>
+            <div class="deco deco-blue-2"><img class="intro" src="assets/img/deco-blue-2.png" alt=""/></div>
+          </div>
+          <div class="container container-md d-flex justify-content-center align-items-center h-100" id="index-container">
+            <div class="shape shape-round-dark bg-darkgrey intro"></div>
+            <div class="shape shape-round-light bg-lightgrey intro"></div>
+            <div class="content">
+              <div class="catch d-flex justify-content-center">
+                <div class="shape shape-rect-grey bg-lightgrey2 intro"></div>
+                <div class="catch-bulb">
+                  <svg class="intro" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M12,6A6,6 0 0,1 18,12C18,14.22 16.79,16.16 15,17.2V19A1,1 0 0,1 14,20H10A1,1 0 0,1 9,19V17.2C7.21,16.16 6,14.22 6,12A6,6 0 0,1 12,6M14,21V22A1,1 0 0,1 13,23H11A1,1 0 0,1 10,22V21H14M20,11H23V13H20V11M1,11H4V13H1V11M13,1V4H11V1H13M4.92,3.5L7.05,5.64L5.63,7.05L3.5,4.93L4.92,3.5M16.95,5.63L19.07,3.5L20.5,4.93L18.37,7.05L16.95,5.63Z" />
+                    </svg>
+                </div>
+                <div class="catch-left"><img class="intro" src="assets/img/furu1.png" alt=""/></div>
+                <div class="catch-body"><img class="intro" src="assets/img/catch.png" alt=""/></div>
+                <div class="catch-right"><img class="intro" src="assets/img/furu2.png" alt=""/></div>
+              </div>
+              <div class="sub h2_34 text-primary fw-bold text-center mt-20px intro"><span class="opacity-40 me-15px">第一屆</span><span>答題大賽</span></div>
+              <div class="index-buttonGroup buttonGroup d-flex justify-content-center mt-20px intro">
+                <label for="inpitFileQuestion" class="button button-style-primary d-block">
+                  <div class="button-text body1_18">載入題庫</div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div id="test" style="display: none;"></div>
+
+  <div id="page_question" class="vw-100 vh-100">
+    <div class="d-flex flex-column justify-content-between bg-grey overflow-hidden vw-100 vh-100 app" >
+      <header class="header">
+        <div class="header-container container container-md py-25px">
+          <div class="header-content d-flex align-items-center justify-content-between">
+            <div class="logo"><img src="assets/img/logo-sm.png" alt="" onclick="ShowQuestion()"/></div>
+          </div>
+        </div>
+      </header>
+      <main class="flex-fill">
+        <!--
+        每頁 content｜start
+         ██████  ████████   ███    ███████  ████████ 
+        ██    ██    ██     ██ ██   ██    ██    ██    
+        ██          ██    ██   ██  ██    ██    ██    
+          █████     ██   ██     ██ ███████     ██    
+              ██    ██   █████████ ██  ██      ██    
+        ██    ██    ██   ██     ██ ██   ██     ██    
+         ██████     ██   ██     ██ ██    ██    ██    
+        -->
+        <div class="popup success-popup d-flex justify-content-center align-items-center">
+          <div class="popup-content d-flex flex-column align-items-center">
+            <div class="popup-icon figure_360 fw-bold"><svg viewBox="0 0 24 24">
+              <path fill="currentColor" d="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+            </svg></div>
+            <div class="popup-title h4_24">正確</div>
+          </div>
+        </div>
+        <div class="popup error-popup d-flex justify-content-center align-items-center">
+          <div class="popup-content d-flex flex-column align-items-center">
+            <div class="popup-icon figure_360"><svg viewBox="0 0 24 24">
+              <path fill="currentColor" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+              </svg></div>
+            <div class="popup-title h4_24">答錯！</div>
+          </div>
+        </div>
+        <div class="popup oops-popup d-flex justify-content-center align-items-center">
+          <div class="popup-content d-flex flex-column align-items-center">
+            <div class="popup-icon figure_360"><svg viewBox="0 0 24 24">
+              <path fill="currentColor" d="M13 14H11V9H13M13 18H11V16H13M1 21H23L12 2L1 21Z" />
+              </svg></div>
+            <div class="popup-title h2_34">請選擇選項</div>
+          </div>
+        </div>
+        <section id="rifur_section" class="section w-100 h-100">
+          <div class="figure_360 Q font-cunstom">Q</div>
+          <div class="deco deco-left"><img class="intro" src="assets/img/deco-left.png" alt=""/></div>
+          <div class="deco deco-right-bottom"><img class="intro" src="assets/img/deco-right-bottom.png" alt=""/></div>
+          <div class="container container-md d-flex justify-content-center align-items-center h-100" id="question-container">
+            <!-- ＊套版部分 : https://www.w3schools.com/tags/tag_form.asp 
+            -->
+            <!-- form class="content" action="" method="post" -->
+              <div class="question d-flex flex-column">
+                <div class="question-head body1_18 d-flex justify-content-between align-self-end intro">
+                  <!-- 難度等級 -->
+                  <div class="question-rank intro" id="rifur_level"><span>★</span><span>★</span><span>★</span><span>★</span><span>☆ </span></div>
+                  <!-- 出題者 -->
+                  <div class="question-creater intro">出題者：<span id="rifur_provider">子迂的蠹酸齋</span></div>
+                  <hr class="question-divider intro"/>
+                </div>
+                <!-- ████████████████████████████████████████████████████████████████████████████████-->
+                <!-- ＊套版部分 : 題目內容加在 .question-text 裡面 
+                -->
+                <div class="question-main h4_24 d-flex justify-content-center">
+                  <div class="shape shape-rect-grey bg-lightgrey intro"></div>
+                  <div class="question-body intro">
+                    <div class="question-text intro">
+                       <p id="rifur_question">作家錢鍾書的作品《圍城》中，有段關於歧視鏈的描述:
+                      「在大學裡，理科學生瞧不起文科學生，外國語文系學生瞧不起中國文學系學生，中國文學系學生瞧不起哲學系學生，哲學系學生瞧不起社會學系學生，社會學系學生瞧不起XX系學生，XX系學生沒有誰可以給他們瞧不起了，只能瞧不起本系的先生。」
+                      
+                      請問描述中的XX系為何?</p>
+                    </div>
+                  </div>
+                </div>
+                <!-- ████████████████████████████████████████████████████████████████████████████████-->
+                <!-- ＊套版部分 : 
+                正確選項 - .answer-option-checked 的 value 為 success 
+                錯誤選項 - .answer-option-checked 的 value 為 error  
+                各選項文字加在 .answer-option-text 裡面 
+                -->
+                <div class="answer row gutter-20 my--10px">
+                  <label class="answer-option col col-6 my-10px intro">
+                    <input class="answer-option-checked" type="radio" value="success" id="rifur_radio1" name="question"/>
+                    <div class="answer-option-body d-flex align-items-center">
+                      <div class="answer-option-id figure_160 font-cunstom">A</div>
+                      <div class="answer-option-text body1_18" id="rifur_answer1">清甲內朵因乍進戊實少斗服</div>
+                    </div>
+                  </label>
+                  <label class="answer-option col col-6 my-10px intro">
+                    <input class="answer-option-checked" type="radio" value="error" id="rifur_radio2" name="question"/>
+                    <div class="answer-option-body d-flex align-items-center">
+                      <div class="answer-option-id figure_160 font-cunstom">B</div>
+                      <div class="answer-option-text body1_18" id="rifur_answer2">玩尼人別才裏足明尾的，奶兔隻話游立且兄象跳園皮</div>
+                    </div>
+                  </label>
+                  <label class="answer-option col col-6 my-10px intro">
+                    <input class="answer-option-checked" type="radio" value="error" id="rifur_radio3" name="question"/>
+                    <div class="answer-option-body d-flex align-items-center">
+                      <div class="answer-option-id figure_160 font-cunstom">C</div>
+                      <div class="answer-option-text body1_18" id="rifur_answer3">何蛋足飯苦飽告几事直什色未大根上「乞牙封多許音幼」四知躲米就共</div>
+                    </div>
+                  </label>
+                  <label class="answer-option col col-6 my-10px intro">
+                    <input class="answer-option-checked" type="radio" value="error" id="rifur_radio4" name="question"/>
+                    <div class="answer-option-body d-flex align-items-center">
+                      <div class="answer-option-id figure_160 font-cunstom">D</div>
+                      <div class="answer-option-text body1_18" id="rifur_answer4">流穿員細旁民氣己快筆竹麻「高黑秋」斤抓要布蝶躲亮；歡時道花各牙冰魚往即月哪、穿給呢唱戊刀女會女會女會女會媽燈珠可冰那刀西。</div>
+                    </div>
+                  </label>
+                </div>
+                <!-- ████████████████████████████████████████████████████████████████████████████████-->
+                <div class="question-foot row gutter-0 intro">
+                  <div class="col-6 d-flex">
+                    <div class="player d-flex align-items-center">
+                      <div class="player-title small_14">請輸入答題者 </div>
+                      <!-- 輸入框 -->
+                      <input class="body1_18 player-inputfield" type="text" name="player" id="rifur_player"/>
+                      <!-- 僅用作顯示（不需輸入答題者） -->
+                    </div>
+                  </div>
+                  <div class="col-6 intro">
+                    <div class="question-buttonGroup buttonGroup d-flex flex-column">
+                      <!-- 在本頁面顯示答錯與否 - 由前端撰寫動態 -->
+                      <div class="button button-style-primary button-action-go button-hidden-success align-self-start button-hidden-error" href="./question.html">
+                        <div class="button-text body1_18">確認</div>
+                      </div>
+                      <!-- 若答對，顯示本按鈕
+                      1. 送出 form : 本題的答題者、狀態（答對）
+                      2. 並連結到題目頁（下一題）- question.html 
+                      --><button class="button button-style-primary align-self-end button-visible-success" onclick="ShowAnswer(1)">
+                        <div class="button-text body1_18"> 點擊繼續</div></button>
+                      <!-- 若答錯，顯示本按鈕 
+                      1. 送出 form : 本題的答題者、狀態（答錯）
+                      2. 並連結到答案頁 - answer.html 
+                      --><button class="button button-style-primary align-self-end button-visible-error" onclick="ShowAnswer(0)">
+                        <div class="button-text body1_18"> 揭曉答案</div></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <!-- /form -->
+          </div>
+        </section>
+        <!--
+        ████████ ██    ██ ███████  
+        ██       ███   ██ ██     ██ 
+        ██       ████  ██ ██     ██ 
+        ██████   ██ ██ ██ ██     ██ 
+        ██       ██  ████ ██     ██ 
+        ██       ██   ███ ██     ██ 
+        ████████ ██    ██ ███████  
+        每頁 content｜end
+        -->
+      </main>
+    </div>
+  </div>
+
+  <div id="page_answer" class="vw-100 vh-100">
+    <div class="d-flex flex-column justify-content-between bg-grey overflow-hidden vw-100 vh-100 app" >
+      <header class="header">
+        <div class="header-container container container-md py-25px">
+          <div class="header-content d-flex align-items-center justify-content-between">
+            <div class="logo"><img src="assets/img/logo-sm.png" alt=""/></div>
+          </div>
+        </div>
+      </header>
+      <main class="flex-fill">
+        <!---->
+        <!-- 每頁 content｜start-->
+        <!--  ██████  ████████   ███    ███████  ████████ -->
+        <!-- ██    ██    ██     ██ ██   ██    ██    ██    -->
+        <!-- ██          ██    ██   ██  ██    ██    ██    -->
+        <!--   █████     ██   ██     ██ ███████     ██    -->
+        <!--       ██    ██   █████████ ██  ██      ██    -->
+        <!-- ██    ██    ██   ██     ██ ██   ██     ██    -->
+        <!--  ██████     ██   ██     ██ ██    ██    ██    -->
+        <div class="popup talking-popup d-flex justify-content-center align-items-center">
+          <div class="popup-content d-flex flex-column align-items-center">
+            <article class="popup-article">
+              <div class="body1_18 subtitle">出題者額外想說的話</div>
+              <hr class="subtitle-divider"/>
+              <p class="small_14 popup-description talking-description intro" id="rifur_panswer_advanced">
+                土百很休合綠苗浪，抱愛就婆入杯南夕種口她苗把綠上吃它兌：是急身吃元男孝已抓英了服起冒玉追「師」入占起教鳥歌院皮休信原它甲燈：朵背筆木且有兌植連刃苦回長地尼。這信爸交沒。呢肖帽老婆金來！定相因地流洋送。爬民雞心行京乾午黑各向黃化貝八。早把買鳥每寫綠象右給們，的夕方。黃別布的消天害昔雨寸友枝，爸爪打種食。工洋者像姊巾乍尾神。蝶往讀以交，友以發今歌彩冬穿士，大爬神話多從勿視，但星竹這交屋鼻且每坐、而吉但「子條斤呢空像」空福馬奶哭由日男追娘平行奶後而停牠流登，哪果五師空千新假「告」您旦裏海幾北跳向拍雨那。土百很休合綠苗浪，抱愛就婆入杯南夕種口她苗把綠上吃它兌：是急身吃元男孝已抓英了服起冒玉追「師」入占起教鳥歌院皮休信原它甲燈：朵背筆木且有兌植連刃苦回長地尼。這信爸交沒。呢肖帽老婆金來！定相因地流洋送。爬民雞心行京乾午黑各向黃化貝八。早把買鳥每寫綠象右給們，的夕方。黃別布的消天害昔雨寸友枝，爸爪打種食。工洋者像姊巾乍尾神。蝶往讀以交，友以發今歌彩冬穿士，大爬神話多從勿視，但星竹這交屋鼻且每坐、而吉但「子條斤呢空像」空福馬奶哭由日男追娘平行奶後而停牠流登，哪果五師空千新假「告」您旦裏海幾北跳向拍雨那。
+                土百很休合綠苗浪，抱愛就婆入杯南夕種口她苗把綠上吃它兌：是急身吃元男孝已抓英了服起冒玉追「師」入占起教鳥歌院皮休信原它甲燈：朵背筆木且有兌植連刃苦回長地尼。這信爸交沒。呢肖帽老婆金來！定相因地流洋送。爬民雞心行京乾午黑各向黃化貝八。早把買鳥每寫綠象右給們，的夕方。黃別布的消天害昔雨寸友枝，爸爪打種食。工洋者像姊巾乍尾神。蝶往讀以交，友以發今歌彩冬穿士，大爬神話多從勿視，但星竹這交屋鼻且每坐、而吉但「子條斤呢空像」空福馬奶哭由日男追娘平行奶後而停牠流登，哪果五師空千新假「告」您旦裏海幾北跳向拍雨那。
+                
+                土百很休合綠苗浪，抱愛就婆入杯南夕種口她苗把綠上吃它兌：是急身吃元男孝已抓英了服起冒玉追「師」入占起教鳥歌院皮休信原它甲燈：朵背筆木且有兌植連刃苦回長地尼。這信爸交沒。呢肖帽老婆金來！定相因地流洋送。爬民雞心行京乾午黑各向黃化貝八。早把買鳥每寫綠象右給們，的夕方。黃別布的消天害昔雨寸友枝，爸爪打種食。工洋者像姊巾乍尾神。蝶往讀以交，友以發今歌彩冬穿士，大爬神話多從勿視，但星竹這交屋鼻且每坐、而吉但「子條斤呢空像」空福馬奶哭由日男追娘平行奶後而停牠流登，哪果五師空千新假「告」您旦裏海幾北跳向拍雨那。
+                
+                土百很休合綠苗浪，抱愛就婆入杯南夕種口她苗把綠上吃它兌：是急身吃元男孝已抓英了服起冒玉追「師」入占起教鳥歌院皮休信原它甲燈：朵背筆木且有兌植連刃苦回長地尼。這信爸交沒。呢肖帽老婆金來！定相因地流洋送。爬民雞心行京乾午黑各向黃化貝八。早把買鳥每寫綠象右給們，的夕方。黃別布的消天害昔雨寸友枝，爸爪打種食。工洋者像姊巾乍尾神。蝶往讀以交，友以發今歌彩冬穿士，大爬神話多從勿視，但星竹這交屋鼻且每坐、而吉但「子條斤呢空像」空福馬奶哭由日男追娘平行奶後而停牠流登，哪果五師空千新假「告」您旦裏海幾北跳向拍雨那。
+              </p>
+            </article>
+            <div class="popup-icon h2_34 button button-style-icon"><svg viewBox="0 0 24 24">
+            <path fill="currentColor" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+            </svg>
+            </div>
+          </div>
+        </div>
+        <section class="section w-100 h-100">
+          <div class="figure_360 A font-cunstom">A</div>
+          <div class="deco deco-blue-1"><img class="intro" src="assets/img/deco-blue-1.png" alt=""/></div>
+          <div class="shape shape-round-light bg-lightgrey intro"></div>
+          <div class="container container-md d-flex justify-content-center align-items-center h-100" id="question-container">
+            <div class="answer content">
+              <div class="deco deco-blue-2"><img class="intro" src="assets/img/deco-blue-2.png" alt=""/></div>
+              <div class="answer-main d-flex flex-column align-items-center intro">
+                <div class="answer-bulb intro"><svg class="intro" viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M12,6A6,6 0 0,1 18,12C18,14.22 16.79,16.16 15,17.2V19A1,1 0 0,1 14,20H10A1,1 0 0,1 9,19V17.2C7.21,16.16 6,14.22 6,12A6,6 0 0,1 12,6M14,21V22A1,1 0 0,1 13,23H11A1,1 0 0,1 10,22V21H14M20,11H23V13H20V11M1,11H4V13H1V11M13,1V4H11V1H13M4.92,3.5L7.05,5.64L5.63,7.05L3.5,4.93L4.92,3.5M16.95,5.63L19.07,3.5L20.5,4.93L18.37,7.05L16.95,5.63Z" />
+                </svg></div>
+                <!-- 難度等級 -->
+                <div class="answer-rank pt-20px pb-40px intro" id="rifur_panswer_level"></div>
+                <!-- 答案  -->
+                <div class="answer-scroll align-self-stretch intro">
+                  <div class="answer-body d-flex flex-column align-items-stretch intro">
+                    <div class="answer-text align-self-center h3_24" id="rifur_panswer_correctAnswer"></div>
+                    <!-- 出題者的註釋-->
+                    <article class="answer-article">
+                      <div class="answer-subtitle body1_18 subtitle">參考資料</div>
+                      <hr class="subtitle-divider"/>
+                      <p class="small_14 answer-description" id="rifur_panswer_reference">土百很休合綠苗浪，抱愛就婆入杯南夕種口她苗把綠上吃它兌：是急身吃元男孝已抓英了服起冒玉追「師」入占起教鳥歌院皮休信原它甲燈：朵背筆木且有兌植連刃苦回長地尼。這信爸交沒。呢肖帽老婆金來！定相因地流洋送。</p>
+                    </article>
+                  </div>
+                </div>
+              </div>
+              <div class="answer-foot row gutter-0 intro">
+                <div class="answer-buttonGroup buttonGroup d-flex justify-content-center intro">
+                  <!-- 開啟出題者的額外補充-->
+                  <div class="button button-style-primary button-action-talking">
+                    <div class="button-text body1_18"> 出題者額外想說的話</div>
+                  </div>
+                  <!-- 連結到下一題 --><button class="button button-style-primary" onclick="ShowQuestion()">
+                    <div class="button-text body1_18"> 下一題</div></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!---->
+        <!-- ████████ ██    ██ ███████  -->
+        <!-- ██       ███   ██ ██     ██ -->
+        <!-- ██       ████  ██ ██     ██ -->
+        <!-- ██████   ██ ██ ██ ██     ██ -->
+        <!-- ██       ██  ████ ██     ██ -->
+        <!-- ██       ██   ███ ██     ██ -->
+        <!-- ████████ ██    ██ ███████  -->
+        <!-- 每頁 content｜end-->
+      </main>
+    </div>
+    <!-- 修正 google chrome 會將 transition 預先觸發的 bug--><script> </script>
+  </body>
+</html>
