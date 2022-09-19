@@ -1,7 +1,7 @@
 body
   // background black
   // background c-darkenGrey3
-#app
+.app
   min-height 100vh
   // background: 
 .section
@@ -10,6 +10,13 @@ body
     animation zoomInOnce .3s
   &.is-error
     animation shake .3s
+
+#firstStage, #page_question, #page_answer
+  &:not(.is-visible)
+    position fixed
+    top -100vh
+    left -100vw
+    overflow hidden
 
 .container, .content
   width 100%
@@ -24,7 +31,7 @@ body
   transition: 
     transform .45s ease-in-out,
     opacity .45s ease-in-out;
-  &.is-active
+  .is-visible &.is-active
     transform: translateX(0) translateY(0) scale(1) rotate(0) !important
     opacity 1 !important 
 
@@ -185,9 +192,12 @@ body
   &-content
     left 0
     right 0
+    +lg()
+      min-width size-sm * 1px
     max-width size-xl * 1px
     margin 0px auto 0 
   &-article
+    width 100%
     background rgba(c-lightgrey2, .75)
     padding 60px
     // overflow auto

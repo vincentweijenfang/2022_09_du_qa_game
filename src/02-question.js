@@ -18,11 +18,11 @@ const init = function() {
     const resolveStatus = !$checkedOption ? 'oops' : $checkedOption.value
     console.log(resolveStatus)
     document.querySelector(`.${resolveStatus}-popup`).classList.add('is-visible')
-    document.querySelector(`.section`).classList.add(`is-${resolveStatus}`)
+    document.querySelector(`#rifur_section`).classList.add(`is-${resolveStatus}`)
     setTimeout(() => {
       document.querySelector(`.${resolveStatus}-popup`).classList.remove('is-visible')
       if (resolveStatus == 'oops') {
-        document.querySelector(`.section`).classList.remove(`is-${resolveStatus}`)
+        document.querySelector(`#rifur_section`).classList.remove(`is-${resolveStatus}`)
       }
     }, 1000)
   })

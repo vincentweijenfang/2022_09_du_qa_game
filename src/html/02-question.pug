@@ -5,6 +5,7 @@ block variables
     var sitename = '第一屆 蠹酸齋答題大賽'
     var description = ''
     var pageName = 'page-question'
+    var sectionNameId = 'page_question'
 block head
 block content
   
@@ -30,7 +31,7 @@ block content
         </svg>
       .popup-title.h2_34 請選擇選項
 
-  section.section.w-100.h-100
+  section.section.w-100.h-100(id="rifur_section").is-visible
     .figure_360.Q.font-cunstom Q
     .deco.deco-left
       img(src="~img/deco-left.png", alt="").intro
@@ -112,31 +113,31 @@ block content
               // 僅用作顯示（不需輸入答題者） 
               //- .body1_18.player-inputfield 子迂的蠹酸齋
 
-          .col-6.question-buttonGroup.buttonGroup.d-flex.flex-column.intro
-            
-            // 在本頁面顯示答錯與否 - 由前端撰寫動態 
-            div.button.button-style-primary.button-action-go.button-hidden-success.align-self-start.button-hidden-error(href="./question.html")
-              .button-text.body1_18 確認
+          .col-6.intro
+            .question-buttonGroup.buttonGroup.d-flex.flex-column
+              // 在本頁面顯示答錯與否 - 由前端撰寫動態 
+              div.button.button-style-primary.button-action-go.button-hidden-success.align-self-start.button-hidden-error(href="./question.html")
+                .button-text.body1_18 確認
 
-            // 若答對，顯示本按鈕
-              1. 送出 form : 本題的答題者、狀態（答對）
-              2. 並連結到題目頁（下一題）- question.html 
-            if APP_ENV !== 'production'
-              a.button.button-style-primary.align-self-end.button-visible-success(href="./answer.html")
-                .button-text.body1_18  點擊繼續
-            else
-              button.button.button-style-primary.align-self-end.button-visible-success
-                .button-text.body1_18  點擊繼續
+              // 若答對，顯示本按鈕
+                1. 送出 form : 本題的答題者、狀態（答對）
+                2. 並連結到題目頁（下一題）- question.html 
+              if APP_ENV !== 'production'
+                a.button.button-style-primary.align-self-end.button-visible-success(href="./answer.html")
+                  .button-text.body1_18  點擊繼續
+              else
+                button.button.button-style-primary.align-self-end.button-visible-success
+                  .button-text.body1_18  點擊繼續
             
-            // 若答錯，顯示本按鈕 
-              1. 送出 form : 本題的答題者、狀態（答錯）
-              2. 並連結到答案頁 - answer.html 
-            if APP_ENV !== 'production'
-              a.button.button-style-primary.align-self-end.button-visible-error(href="./answer.html")
-                .button-text.body1_18  揭曉答案
-            else
-              button.button.button-style-primary.align-self-end.button-visible-error
-                .button-text.body1_18  揭曉答案
+              // 若答錯，顯示本按鈕 
+                1. 送出 form : 本題的答題者、狀態（答錯）
+                2. 並連結到答案頁 - answer.html 
+              if APP_ENV !== 'production'
+                a.button.button-style-primary.align-self-end.button-visible-error(href="./answer.html")
+                  .button-text.body1_18  揭曉答案
+              else
+                button.button.button-style-primary.align-self-end.button-visible-error
+                  .button-text.body1_18  揭曉答案
 
 
 block lastBody

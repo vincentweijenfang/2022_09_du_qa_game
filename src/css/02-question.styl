@@ -1,19 +1,20 @@
 // @require '0_main' 不須載入整包，只許引入變數就好，如下方所示
 @require 'mixins/_index'
 
-.deco
-  &-left
-    transform translateX(-60%)
-.shape
-  &-rect-grey
-    left: calc(-50vw + 50%)
-    margin-left -10px
-    top 50%
-    width 50vw
-    height 150%
-    transform translateY(-50%) rotate(15deg)
-    &.is-active
-      transform translateY(-50%) rotate(0) !important
+#page_question
+  .deco
+    &-left
+      transform translateX(-60%)
+  .shape
+    &-rect-grey
+      left: calc(-50vw + 50%)
+      margin-left -10px
+      top 50%
+      width 50vw
+      height 150%
+      transform translateY(-50%) rotate(15deg)
+      &.is-active
+        transform translateY(-50%) rotate(0) !important
 
 .Q
   position absolute
@@ -24,6 +25,7 @@
 
 .question
   // margin-top -100px
+  width 100%
   padding 15px 0
   &-head
     position relative
