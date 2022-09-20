@@ -43,7 +43,17 @@
     background rgba(c-lightgrey2, .4)
     padding 0px 60px 60px
     max-height calc(100vh - 240px)
+  &-head
+    position relative
+  &-correct
+    position absolute
+    left 0 
+    bottom 0
+    &-id 
+      color c-primary
   &-body
+    position relative
+    padding 0 10px
     transform translateX(100%)
     overflow hidden
     // max-height calc(100vh - 360px)
@@ -97,4 +107,8 @@
   &-divider
     margin 20px 0
 
-
+.question
+  &-creater
+    transform translateY(100%)
+    color c-primary
+    opacity 0 

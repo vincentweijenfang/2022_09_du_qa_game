@@ -168,7 +168,7 @@
           document.getElementById('anwser2').innerHTML = '<button onclick="checkAnser(1)">2</button>' +Ary[1];
           document.getElementById('anwser3').innerHTML = '<button onclick="checkAnser(2)">3</button>' +Ary[2];
           document.getElementById('anwser4').innerHTML = '<button onclick="checkAnser(3)">4</button>' +Ary[3];
-
+          document.getElementById('rifur_correctAnswer-page_answer').innerHTML = ['A','B','C','D'][Ary.indexOf(Question.correctAnswer)];
           Question['winner'] = Name;
         }
       }
@@ -195,6 +195,8 @@
         Question = questionSet.pop();
           document.getElementById('rifur_question').innerHTML = Question.question;
           document.getElementById('rifur_provider').innerHTML = Question.provider;
+          document.getElementById('rifur_provider-page_answer').innerHTML = Question.provider;
+
           var level = parseInt(Question.level);
           if(level == NaN) level = 1;
           var levelStartA = '';
@@ -222,6 +224,7 @@
           document.getElementById('rifur_radio2').value = Question.correctAnswer==Ary[1] ? 'success' : 'error';
           document.getElementById('rifur_radio3').value = Question.correctAnswer==Ary[2] ? 'success' : 'error';
           document.getElementById('rifur_radio4').value = Question.correctAnswer==Ary[3] ? 'success' : 'error';
+          document.getElementById('rifur_correctAnswer-page_answer').innerHTML = ['A','B','C','D'][Ary.indexOf(Question.correctAnswer)];
       }
 
       function ShowAnswer(win) {
@@ -429,7 +432,7 @@
                 <!-- ████████████████████████████████████████████████████████████████████████████████-->
                 <div class="question-foot row gutter-0 intro">
                   <div class="col-6 d-flex">
-                    <div class="player d-flex align-items-center">
+                    <div class="player d-flex align-items-center d-none">
                       <div class="player-title small_14">請輸入答題者 </div>
                       <!-- 輸入框 -->
                       <input class="body1_18 player-inputfield" type="text" name="player" id="rifur_player"/>
@@ -496,7 +499,7 @@
           <div class="popup-content d-flex flex-column align-items-center">
             <article class="popup-article">
               <div class="body1_18 subtitle">出題者額外想說的話</div>
-              <hr class="subtitle-divider"/>
+              <!-- <hr class="subtitle-divider"/> -->
               <p class="small_14 popup-description talking-description intro" id="rifur_panswer_advanced">
                 土百很休合綠苗浪，抱愛就婆入杯南夕種口她苗把綠上吃它兌：是急身吃元男孝已抓英了服起冒玉追「師」入占起教鳥歌院皮休信原它甲燈：朵背筆木且有兌植連刃苦回長地尼。這信爸交沒。呢肖帽老婆金來！定相因地流洋送。爬民雞心行京乾午黑各向黃化貝八。早把買鳥每寫綠象右給們，的夕方。黃別布的消天害昔雨寸友枝，爸爪打種食。工洋者像姊巾乍尾神。蝶往讀以交，友以發今歌彩冬穿士，大爬神話多從勿視，但星竹這交屋鼻且每坐、而吉但「子條斤呢空像」空福馬奶哭由日男追娘平行奶後而停牠流登，哪果五師空千新假「告」您旦裏海幾北跳向拍雨那。土百很休合綠苗浪，抱愛就婆入杯南夕種口她苗把綠上吃它兌：是急身吃元男孝已抓英了服起冒玉追「師」入占起教鳥歌院皮休信原它甲燈：朵背筆木且有兌植連刃苦回長地尼。這信爸交沒。呢肖帽老婆金來！定相因地流洋送。爬民雞心行京乾午黑各向黃化貝八。早把買鳥每寫綠象右給們，的夕方。黃別布的消天害昔雨寸友枝，爸爪打種食。工洋者像姊巾乍尾神。蝶往讀以交，友以發今歌彩冬穿士，大爬神話多從勿視，但星竹這交屋鼻且每坐、而吉但「子條斤呢空像」空福馬奶哭由日男追娘平行奶後而停牠流登，哪果五師空千新假「告」您旦裏海幾北跳向拍雨那。
                 土百很休合綠苗浪，抱愛就婆入杯南夕種口她苗把綠上吃它兌：是急身吃元男孝已抓英了服起冒玉追「師」入占起教鳥歌院皮休信原它甲燈：朵背筆木且有兌植連刃苦回長地尼。這信爸交沒。呢肖帽老婆金來！定相因地流洋送。爬民雞心行京乾午黑各向黃化貝八。早把買鳥每寫綠象右給們，的夕方。黃別布的消天害昔雨寸友枝，爸爪打種食。工洋者像姊巾乍尾神。蝶往讀以交，友以發今歌彩冬穿士，大爬神話多從勿視，但星竹這交屋鼻且每坐、而吉但「子條斤呢空像」空福馬奶哭由日男追娘平行奶後而停牠流登，哪果五師空千新假「告」您旦裏海幾北跳向拍雨那。
@@ -519,12 +522,20 @@
           <div class="container container-md d-flex justify-content-center align-items-center h-100" id="question-container">
             <div class="answer content">
               <div class="deco deco-blue-2"><img class="intro" src="assets/img/deco-blue-2.png" alt=""/></div>
-              <div class="answer-main d-flex flex-column align-items-center intro">
-                <div class="answer-bulb intro"><svg class="intro" viewBox="0 0 24 24">
-                  <path fill="currentColor" d="M12,6A6,6 0 0,1 18,12C18,14.22 16.79,16.16 15,17.2V19A1,1 0 0,1 14,20H10A1,1 0 0,1 9,19V17.2C7.21,16.16 6,14.22 6,12A6,6 0 0,1 12,6M14,21V22A1,1 0 0,1 13,23H11A1,1 0 0,1 10,22V21H14M20,11H23V13H20V11M1,11H4V13H1V11M13,1V4H11V1H13M4.92,3.5L7.05,5.64L5.63,7.05L3.5,4.93L4.92,3.5M16.95,5.63L19.07,3.5L20.5,4.93L18.37,7.05L16.95,5.63Z" />
-                </svg></div>
-                <!-- 難度等級 -->
-                <div class="answer-rank pt-20px pb-40px intro" id="rifur_panswer_level"></div>
+              <div class="answer-main d-flex flex-column align-items-stretch intro">
+                <div class="answer-head d-flex justify-content-center mb-40px">
+                  <div class="answer-correct d-flex align-items-center">
+                    <div class="body1_18 subtitle me-20px mb-0px">正確答案</div>
+                    <div class="answer-correct-id h1_64 font-cunstom" id="rifur_correctAnswer-page_answer">A</div>
+                  </div>
+                  <div>
+                    <div class="answer-bulb intro"><svg class="intro" viewBox="0 0 24 24">
+                      <path fill="currentColor" d="M12,6A6,6 0 0,1 18,12C18,14.22 16.79,16.16 15,17.2V19A1,1 0 0,1 14,20H10A1,1 0 0,1 9,19V17.2C7.21,16.16 6,14.22 6,12A6,6 0 0,1 12,6M14,21V22A1,1 0 0,1 13,23H11A1,1 0 0,1 10,22V21H14M20,11H23V13H20V11M1,11H4V13H1V11M13,1V4H11V1H13M4.92,3.5L7.05,5.64L5.63,7.05L3.5,4.93L4.92,3.5M16.95,5.63L19.07,3.5L20.5,4.93L18.37,7.05L16.95,5.63Z" />
+                    </svg></div>
+                    <!-- 難度等級 -->
+                    <div class="answer-rank pt-20px pb-40px intro" id="rifur_panswer_level"></div>
+                  </div>
+                </div>
                 <!-- 答案  -->
                 <div class="answer-scroll align-self-stretch intro">
                   <div class="answer-body d-flex flex-column align-items-stretch intro">
@@ -532,12 +543,13 @@
                     <!-- 出題者的註釋-->
                     <article class="answer-article">
                       <div class="answer-subtitle body1_18 subtitle">參考資料</div>
-                      <hr class="subtitle-divider"/>
+                      <!-- <hr class="subtitle-divider"/> -->
                       <p class="small_14 answer-description" id="rifur_panswer_reference">土百很休合綠苗浪，抱愛就婆入杯南夕種口她苗把綠上吃它兌：是急身吃元男孝已抓英了服起冒玉追「師」入占起教鳥歌院皮休信原它甲燈：朵背筆木且有兌植連刃苦回長地尼。這信爸交沒。呢肖帽老婆金來！定相因地流洋送。</p>
                     </article>
                   </div>
                 </div>
               </div>
+              <div class="question-creater body1_18 py-20px text-center intro">出題者：<span id="rifur_provider-page_answer">子迂的蠹酸齋</span></div>
               <div class="answer-foot row gutter-0 intro">
                 <div class="answer-buttonGroup buttonGroup d-flex justify-content-center intro">
                   <!-- 開啟出題者的額外補充-->

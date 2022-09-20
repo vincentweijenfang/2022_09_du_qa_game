@@ -50,7 +50,7 @@ html(class='🤘🏻rockroll')
   body(class=DEV_MODE?'mode-dev '+bodyClass:bodyClass)
 
     //- +loading({class: ''})
-    .app.d-flex.flex-column.justify-content-between.bg-grey.overflow-hidden.vw-100.vh-100(id=sectionNameId || '')
+    .app.d-flex.flex-column.justify-content-between.bg-grey.overflow-hidden.vw-100.vh-100.is-visible(id=sectionNameId || '')
       if pageName != 'page-index'
         include _header.pug
         //-
